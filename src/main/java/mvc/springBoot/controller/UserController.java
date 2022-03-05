@@ -16,10 +16,15 @@ import java.security.Principal;
 @Controller
 public class UserController {
 
+
+    private final UserServiceImpl userServiceImpl;
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserServiceImpl userServiceImpl;
-    @Autowired
-    private UserRepository userRepository;
+    UserController (UserRepository userRepository,  UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+        this.userRepository = userRepository;
+    }
 
 
     @GetMapping("/index")

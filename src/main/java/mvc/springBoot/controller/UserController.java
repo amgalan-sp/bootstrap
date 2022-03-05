@@ -1,6 +1,7 @@
 package mvc.springBoot.controller;
 
 import mvc.springBoot.repository.UserRepository;
+import mvc.springBoot.service.UserService;
 import mvc.springBoot.service.UserServiceImpl;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,12 +18,12 @@ import java.security.Principal;
 public class UserController {
 
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
     private final UserRepository userRepository;
 
     @Autowired
-    UserController (UserRepository userRepository,  UserServiceImpl userServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
+    UserController (UserRepository userRepository,  UserService userService) {
+        this.userService = userService;
         this.userRepository = userRepository;
     }
 
@@ -30,28 +31,28 @@ public class UserController {
     @GetMapping("/index")
     public String StartPage(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("userAuth" , userServiceImpl.loadUserByUsername(auth.getName()));
+        model.addAttribute("userAuth" , userService.loadUserByUsername(auth.getName()));
         return "index";
     }
 
     @GetMapping("/admin/users")
     public String allUsers(Model model) {
-        model.addAttribute("usersList", userServiceImpl.allUsers());
+        model.addAttribute("usersList", userService.allUsers());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("userAuth" , userServiceImpl.loadUserByUsername(auth.getName()));
+        model.addAttribute("userAuth" , userService.loadUserByUsername(auth.getName()));
         return "users";
     }
 
     @GetMapping(value = "user/lk")
     public String getUserPage2(Model model, Principal principal) {
-        model.addAttribute("user", userServiceImpl.loadUserByUsername(principal.getName()));
+        model.addAttribute("user", userService.loadUserByUsername(principal.getName()));
         return "user";
     }
 
     @GetMapping("/user/{username}")
     public String getUserByUsername(@PathVariable("username") String username, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("userAuth" , userServiceImpl.loadUserByUsername(auth.getName()));
+        model.addAttribute("userAuth" , userService.loadUserByUsername(auth.getName()));
         User user = userRepository.findByUsername(username);
         model.addAttribute("user", user);
         return "/user";
@@ -67,7 +68,7 @@ public class UserController {
         if (result.hasErrors()) {
             return "addPage";
         }
-        userServiceImpl.saveUser(user);
+        userService.saveUser(user);
         return "redirect:/admin/users";
     }
 

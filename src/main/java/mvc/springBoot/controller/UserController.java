@@ -71,7 +71,7 @@ public class UserController {
 
     @PostMapping("/admin/add")
     public String addUser(@ModelAttribute("newUser") User user, @RequestParam("roles") ArrayList<Long> roles) {
-        userService.updateAll(user);
+        userService.saveUser(user);
         user.setRoles(roles.stream().map(roleService::getRole).collect(Collectors.toSet()));
         return "redirect:/admin/users";
     }

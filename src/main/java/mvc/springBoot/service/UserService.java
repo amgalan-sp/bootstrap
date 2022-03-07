@@ -14,6 +14,8 @@ public interface UserService extends UserDetailsService {
     public User findUserById(Integer userId);
     public List<User> allUsers();
     public boolean saveUser(User user);
-    public boolean deleteUser(Integer userId);
+    public void updateAll(User user);
+    public void update(User updated, int id);
+    public void deleteUser(User user);
 
 }

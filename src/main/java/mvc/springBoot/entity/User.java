@@ -33,7 +33,14 @@ public class User implements UserDetails {
 
     public User() {
     }
-
+    public User(int id, String name, String lastname, int age, String username, String password) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.age = age;
+        this.username = username;
+        this.password = password;
+    }
     public int getId() {
         return id;
     }

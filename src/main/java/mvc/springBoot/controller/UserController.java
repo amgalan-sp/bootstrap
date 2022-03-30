@@ -1,7 +1,7 @@
 package mvc.springBoot.controller;
 
 import mvc.springBoot.entity.Role;
-import mvc.springBoot.repository.UserRepository;
+import mvc.springBoot.init.Init;
 import mvc.springBoot.service.RoleService;
 import mvc.springBoot.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -11,9 +11,7 @@ import org.springframework.ui.Model;
 import mvc.springBoot.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,14 +22,16 @@ import java.util.stream.Collectors;
 @Controller
 public class UserController {
 
-
     private final UserService userService;
     private final RoleService roleService;
+    private final Init init;
 
     @Autowired
-    UserController(UserService userService, RoleService roleService) {
+    UserController(UserService userService, RoleService roleService, Init init) {
         this.userService = userService;
         this.roleService = roleService;
+        this.init = init;
+
     }
 
     @GetMapping("/index")

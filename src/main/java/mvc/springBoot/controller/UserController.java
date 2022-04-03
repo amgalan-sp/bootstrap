@@ -35,12 +35,15 @@ public class UserController {
     }
 
     @GetMapping("/index")
-    public String StartPage(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("userAuth" , userService.loadUserByUsername(auth.getName()));
+    public String StartPage() {
         return "index";
     }
-
+    @GetMapping("/index/auth")
+    public String userAuthPage(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("userAuth" , userService.loadUserByUsername(auth.getName()));
+        return "indexAuth";
+    }
     @GetMapping("/admin/users")
     public String allUsers(Model model) {
         model.addAttribute("usersList", userService.allUsers());
